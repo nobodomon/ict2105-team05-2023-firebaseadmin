@@ -95,6 +95,29 @@ app.post('/deleteUser', (req, res) => {
     }
   });
 
+//create user
+app.post('/createUser', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if(email != undefined && password != undefined){
+        admin.auth().createUser({
+            email: email,
+            emailVerified: false,
+            password: password,
+            disabled: false
+          })
+          .then((userRecord) => {
+            // See the UserRecord reference doc for the contents of userRecord.
+            console.log('Successfully created new user:', userRecord.uid);
+            res.status(200).send(userRecord.uid);
+          })
+          .catch((error) => {
+            console.log('Error creating new user:', error);
+            res.status(500).send('Error creating new user');
+          });
+    }
+  });
 const port = 3000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
