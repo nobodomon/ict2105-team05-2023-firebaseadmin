@@ -79,6 +79,22 @@ app.post('/customToken', (req, res) => {
     }
   });
 
+//delete user
+app.post('/deleteUser', (req, res) => {
+    const uid = req.body.uid;
+    if(uid != undefined){
+        admin.auth().deleteUser(uid)
+        .then(() => {
+        console.log('Successfully deleted user');
+        res.status(200).send('Successfully deleted user');
+        })
+        .catch((error) => {
+        console.log('Error deleting user:', error);
+        res.status(500).send('Error deleting user');
+        });
+    }
+  });
+
 const port = 3000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
